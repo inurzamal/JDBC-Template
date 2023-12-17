@@ -2,9 +2,11 @@ package com.nur.dao;
 
 import com.nur.model.Product;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -43,6 +45,25 @@ public class ProductDaoImpl2 implements ProductDao {
     public void addProduct(Product product) {
         String sql = "INSERT INTO products (name, price) VALUES (?, ?)";
         jdbcTemplate.update(sql, product.getName(), product.getPrice());
+    }
+
+    @Override
+    public void addProducts(List<Product> products) {
+        String sql = "INSERT INTO products (name, price) VALUES (?, ?)";
+
+        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
+                Product product = products.get(i);
+                preparedStatement.setString(1, product.getName());
+                preparedStatement.setDouble(2, product.getPrice());
+            }
+
+            @Override
+            public int getBatchSize() {
+                return products.size();
+            }
+        });
     }
 
     @Override

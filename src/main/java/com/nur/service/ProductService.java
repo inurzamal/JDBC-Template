@@ -27,6 +27,10 @@ public class ProductService {
         productDao.addProduct(product);
     }
 
+    public void addProducts(List<Product> products) {
+        productDao.addProducts(products);
+    }
+
     public void updateProduct(Product product) {
         productDao.updateProduct(product);
     }

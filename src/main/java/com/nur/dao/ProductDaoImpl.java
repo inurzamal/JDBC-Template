@@ -77,6 +77,10 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
+    public void addProducts(List<Product> products) {
+    }
+
+    @Override
     public void updateProduct(Product product) {
         try (PreparedStatement statement = connection.prepareStatement("UPDATE products SET name = ?, price = ? WHERE id = ?")) {
             statement.setString(1, product.getName());

@@ -11,7 +11,7 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
-    private ProductService productService;
+    ProductService productService;
 
     @GetMapping("/products")
     public List<Product> getAllProducts() {
@@ -26,6 +26,11 @@ public class ProductController {
     @PostMapping("/product")
     public void addProduct(@RequestBody Product product) {
         productService.addProduct(product);
+    }
+
+    @PostMapping("/products")
+    public void addProducts(@RequestBody List<Product> products) {
+        productService.addProducts(products);
     }
 
     @PutMapping("product/{id}")
